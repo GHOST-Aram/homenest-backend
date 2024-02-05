@@ -75,11 +75,11 @@ export class RentalsController extends HttpResponse implements Controllable{
         const updateDoc = req.body
 
         try {
-            const updatedDoc = await this.dataAccess.findByIdAndUpdate(rentalId, 
+            const modifiedDoc = await this.dataAccess.findByIdAndUpdate(rentalId, 
                 updateDoc)
 
-            if(updatedDoc){
-                this.respondWithModifiedResource(updatedDoc.id, res)
+            if(modifiedDoc){
+                this.respondWithModifiedResource(modifiedDoc.id, res)
             } else{
               this.respondWithNotFound(res)
             }
@@ -90,6 +90,19 @@ export class RentalsController extends HttpResponse implements Controllable{
     }
 
     public deleteOne = async(req: Request, res: Response, next: NextFunction) => {
+        const rentalId = req.params.id
 
+        try {
+            const deletedDoc = await this.dataAccess.findByIdAndDelete(rentalId)
+
+            if(deletedDoc){
+                this.respondWithDeletedResource(deletedDoc.id, res)
+            } else{
+              this.respondWithNotFound(res)
+            }
+
+        } catch (error) {
+            next(error)
+        }
     }
 }

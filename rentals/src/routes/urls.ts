@@ -37,6 +37,14 @@ export const routesWrapper = (controller: RentalsController) =>{
         validator.handleValidationErrors,
         controller.modifyOne
     )
+
+    router.delete('/', controller.respondWithMethodNotAllowed)
+    router.delete('/:id', 
+        validator.validateReferenceId('id'),
+        validator.handleValidationErrors,
+        controller.deleteOne
+    )
+
     
     return router
 }
