@@ -1,5 +1,5 @@
 {
-  "name": "e-commerce-api",
+  "name": "homenest-backend",
   "version": "1.0.0",
   "description": "A CRUD Backend API for a simple E-commerce application: Products Component",
   "main": "index.ts",
