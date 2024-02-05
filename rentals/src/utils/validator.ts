@@ -28,8 +28,8 @@ class RentalsValidator extends Validator{
 
     public validateImageUrl = (fieldName: string): ValidationChain[] => {
         return [
-            this.validateString(fieldName),
-            this.validateRequiredField(fieldName)
+            this.validateString(fieldName).notEmpty().withMessage
+                ('Image url is required')
         ]
     }
 
