@@ -13,6 +13,12 @@ export const routesWrapper = (controller: RentalsController) =>{
         validator.handleValidationErrors,
         controller.addNew
     )
+
+    router.get('/:id', 
+        validator.validateReferenceId('id'),
+        validator.handleValidationErrors,
+        controller.getOne
+    )
     
     return router
 }

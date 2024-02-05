@@ -24,7 +24,19 @@ export class RentalsController extends HttpResponse implements Controllable{
     }
 
     public getOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const rentalId = req.params.id
 
+        try {
+            const foundRental = await this.dataAccess.findByReferenceId(rentalId)
+
+            if(foundRental){
+                this.respondWithFoundResource(foundRental, res)
+            } else{
+                this.respondWithNotFound(res)
+            }
+        } catch (error) {
+            next(error)
+        }
     }
 
     public getMany = async(req: Request, res: Response, next: NextFunction) =>{
