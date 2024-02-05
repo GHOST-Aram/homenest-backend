@@ -24,10 +24,10 @@ describe('Rentals POST Route', () => {
         }
     )
 
-    test('Responds with created resource, status 201: Post success', () =>{
+    test('Responds with created resource, status 201: Post success', 
         async() =>{
             const response = await request(app).post('/rentals').send(rentalData)
             assert.respondsWithCreatedResource(response)
         }
-    })
+    )
 })
