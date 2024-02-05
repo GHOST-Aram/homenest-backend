@@ -71,7 +71,22 @@ export class RentalsController extends HttpResponse implements Controllable{
     }
 
     public modifyOne = async(req: Request, res: Response, next: NextFunction) =>{
+        const rentalId = req.params.id
+        const updateDoc = req.body
 
+        try {
+            const updatedDoc = await this.dataAccess.findByIdAndUpdate(rentalId, 
+                updateDoc)
+
+            if(updatedDoc){
+                this.respondWithModifiedResource(updatedDoc.id, res)
+            } else{
+              this.respondWithNotFound(res)
+            }
+
+        } catch (error) {
+            next(error)
+        }
     }
 
     public deleteOne = async(req: Request, res: Response, next: NextFunction) => {

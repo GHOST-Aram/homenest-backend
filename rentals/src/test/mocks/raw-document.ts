@@ -6,7 +6,12 @@ export const rentalData = {
 }
 
 export const badRentalData = {
-    price: 5000,
+    price: '5,000',
+    location: 'Nairobi',
+    bedrooms: 'Four'
+}
+
+export const patchData = {
     location: 'Nairobi',
     bedrooms: 4
 }

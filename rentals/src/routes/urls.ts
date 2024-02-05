@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { RentalsController } from "../controller/controller";
-import { rentalPostValidator } from "./input-validation";
+import { optionalValidator, rentalPostValidator } from "./input-validation";
 import { validator } from "../utils/validator";
 
 const router = Router()
@@ -28,6 +28,14 @@ export const routesWrapper = (controller: RentalsController) =>{
         rentalPostValidator,
         validator.handleValidationErrors,
         controller.updateOne
+    )
+
+    router.patch('/', controller.respondWithMethodNotAllowed)
+    router.patch('/:id', 
+        validator.validateReferenceId('id'),
+        optionalValidator,
+        validator.handleValidationErrors,
+        controller.modifyOne
     )
     
     return router

@@ -28,9 +28,13 @@ class RentalsValidator extends Validator{
 
     public validateImageUrl = (fieldName: string): ValidationChain[] => {
         return [
-            body(fieldName).isString(),
+            this.validateString(fieldName),
             this.validateRequiredField(fieldName)
         ]
+    }
+
+    public validateString = (fieldName: string): ValidationChain =>{
+        return body(fieldName).isString()
     }
 }
 
