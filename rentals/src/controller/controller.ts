@@ -10,7 +10,7 @@ export class RentalsController extends HttpResponse implements Controllable{
     constructor(dataAccess: RentalDataAccess){
         super()
         this.dataAccess = dataAccess
-    }
+}
 
     public addNew = async(req: Request, res: Response, next: NextFunction) =>{
         const rentalData = req.body
