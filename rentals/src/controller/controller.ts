@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express-serve-static-core";
-import { HttpResponse } from "../z-library/HTTP/http-response";
+import { HttpResponse, Paginator } from "../z-library/HTTP/http-response";
 import { Controllable } from "../z-library/bases/controllable";
 import { RentalDataAccess } from "../data-access/data-access";
 
@@ -40,7 +40,14 @@ export class RentalsController extends HttpResponse implements Controllable{
     }
 
     public getMany = async(req: Request, res: Response, next: NextFunction) =>{
+        const paginator: Paginator = this.paginate(req) 
 
+        try {
+            const rentals = await this.dataAccess.findWithPagination(paginator)
+            this.respondWithFoundResource(rentals, res)
+        } catch (error) {
+            next(error)
+        }
     }
 
     public updateOne = async(req: Request, res: Response, next: NextFunction) =>{

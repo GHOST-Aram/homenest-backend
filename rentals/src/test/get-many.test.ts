@@ -13,4 +13,13 @@ describe('GET Many rentals', () =>{
             assert.respondsWithPaginatedResource(response, 10)
         }
     )
+
+    test('Responds with paginated data, status 200: (User defined pagination = 21', 
+        async() =>{
+            const response = await request(app).get('/rentals?page=1&&limit=21')
+
+            assert.respondsWithSuccess(response)
+            assert.respondsWithPaginatedResource(response, 21)
+        }
+    )
 })

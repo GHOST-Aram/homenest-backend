@@ -20,6 +20,8 @@ export const routesWrapper = (controller: RentalsController) =>{
         controller.getOne
     )
 
+    router.get('/', controller.getMany)
+
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:id', 
         validator.validateReferenceId('id'),
