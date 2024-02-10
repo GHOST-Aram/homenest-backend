@@ -34,6 +34,12 @@ export class ResponseAssertion{
             /\/[.\w]+\/[a-fA-F0-9]{24}/)
     }
 
+    public respondsWithAllDataProperties = (properties: any[], response: Response) =>{
+        properties.forEach(property =>{
+            expect(response.body.resource).toHaveProperty(property)
+        })
+    }
+
     public respondsWithNotFound = (response: Response) =>{
         expect(response.status).toEqual(404)
         expect(response.headers['content-type']).toMatch(/json/)

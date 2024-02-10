@@ -1,10 +1,34 @@
 import { validator } from "../utils/validator";
 
 export const rentalPostValidator = [
-    ...validator.validateBedrooms('bedrooms'),
+    validator.validateName('propertyName'),
+    validator.validateRequiredField('propertyName'),
+
+    validator.validateNumberField('bedrooms'),
+    validator.validateRequiredField('bedrooms'),
+
     ...validator.validateImageUrl('imageUrl'),
+
+    validator.validateString('description'),
+    validator.validateRequiredField('description'),
+
+    validator.validateObjectId('agentId'),
+    validator.validateRequiredField('agentId'),
+    
     ...validator.validateLocation('location'),
-    ...validator.validatePrice('price',)
+    ...validator.validatePrice('rentPerMonth'),
+    ...validator.validatePrice('rentPerYear'),
+    validator.validateNumberField('bathrooms'),
+    validator.validateRequiredField('bathrooms'),
+
+    validator.validateNumberField('squareFootage'),
+    validator.validateRequiredField('squareFootage'),
+
+
+
+
+
+
 ]
 
 export const optionalValidator = [

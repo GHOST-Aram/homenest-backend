@@ -2,6 +2,14 @@ import { ValidationChain, body } from "express-validator";
 import { Validator } from "../z-library/validation/validator";
 
 class RentalsValidator extends Validator{
+
+    public validatePropertyName = (fieldName:string) =>{
+        return [
+            this.validateName(fieldName),
+            this.validateRequiredField(fieldName)
+        ]
+    }
+
     public validateLocation = (fieldName: string): ValidationChain[] =>{
         
         return [
@@ -9,6 +17,7 @@ class RentalsValidator extends Validator{
             this.validateRequiredField(fieldName)
         ]
     }
+
 
     public validateBedrooms = (fieldName: string): ValidationChain[] =>{
 
@@ -35,6 +44,10 @@ class RentalsValidator extends Validator{
 
     public validateString = (fieldName: string): ValidationChain =>{
         return body(fieldName).isString()
+    }
+
+    public validateArray = (fieldName: string): ValidationChain =>{
+        return body(fieldName).isArray()
     }
 }
 
