@@ -3,7 +3,8 @@ import { HttpResponse, Paginator } from "../z-library/HTTP/http-response";
 import { Controllable } from "../z-library/bases/controllable";
 import { Accessible } from "../z-library/bases/accessible";
 
-export class GenericController <T extends Accessible> extends HttpResponse implements Controllable{
+export class GenericController <T extends Accessible> 
+    extends HttpResponse implements Controllable {
 
     private dataAccess: T
 

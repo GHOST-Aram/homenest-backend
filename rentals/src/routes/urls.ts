@@ -11,23 +11,23 @@ export const routesWrapper = (controller: RentalsController) =>{
     router.post('/', 
         rentalPostValidator,
         validator.handleValidationErrors,
-        controller.addNew
+        controller.addNewRental()
     )
 
     router.get('/:id', 
         validator.validateReferenceId('id', { required: true }),
         validator.handleValidationErrors,
-        controller.getOne
+        controller.getOneRental()
     )
 
-    router.get('/', controller.getMany)
+    router.get('/', controller.getManyRentals())
 
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:id', 
         validator.validateReferenceId('id', { required: true }),
         rentalPostValidator,
         validator.handleValidationErrors,
-        controller.updateOne
+        controller.updateOneRental()
     )
 
     router.patch('/', controller.respondWithMethodNotAllowed)
@@ -35,14 +35,14 @@ export const routesWrapper = (controller: RentalsController) =>{
         validator.validateReferenceId('id', { required: true }),
         optionalValidator,
         validator.handleValidationErrors,
-        controller.modifyOne
+        controller.modifyOneRental()
     )
 
     router.delete('/', controller.respondWithMethodNotAllowed)
     router.delete('/:id', 
         validator.validateReferenceId('id', { required: true }),
         validator.handleValidationErrors,
-        controller.deleteOne
+        controller.deleteOneRental()
     )
 
     
