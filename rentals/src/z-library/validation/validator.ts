@@ -16,7 +16,8 @@ export class Validator {
     private objectIdMessage = 'must be an hexadecimal of length 24'
     
     public validateObjectId = (fieldName: string, { required }: ValidationOption) =>{
-        const validationChain =  body(fieldName)
+
+        const validationChain = () =>  body(fieldName)
             .trim()
             .matches(/[a-fA-F0-9]{24}/)
             .withMessage(
@@ -24,27 +25,25 @@ export class Validator {
             .escape()
 
         if(required){
-            return validationChain.notEmpty().withMessage(`${fieldName} is required`)
+            return validationChain().notEmpty().withMessage(`${fieldName} is required`)
         } else {
-            return validationChain.optional()
+            return validationChain().optional()
         }
     }
 
     public validateObjectIDArray = (fieldName: string, { required }: ValidationOption) =>{
+        const validationChain = () => body(fieldName)
+            .custom(this.validateIds)
+            .withMessage(
+                `${fieldName} ${this.objectIdMessage} array`
+            )
+
         if(required){
-            return body(fieldName).notEmpty()
+            return validationChain().notEmpty()
                 .withMessage(`${fieldName} is required`)
-                .custom(this.validateIds)
-                .withMessage(
-                    `${fieldName} ${this.objectIdMessage} array`
-                )
 
         } else{
-            return body(fieldName)
-                .custom(this.validateIds)
-                .withMessage(
-                    `${fieldName} ${this.objectIdMessage} array`
-                ).optional()
+            return validationChain().optional()
         }
     }
 
@@ -58,148 +57,121 @@ export class Validator {
     }
 
     public validateReferenceId = (paramName: string, { required }: ValidationOption) =>{
-        if(required){
-            return param(paramName)
+        const validationChain = () => param(paramName)
             .trim()
             .matches(/^[a-fA-F0-9]{24}$/)
             .withMessage('Invalid reference Id')
             .withMessage(`${paramName} is required`)
             .escape()
-            .notEmpty()
+
+        if(required){
+            return validationChain().notEmpty().withMessage(`${paramName} is required.`)
         } else{
-            return param(paramName)
-            .trim()
-            .optional()
-            .matches(/^[a-fA-F0-9]{24}$/)
-            .withMessage('Invalid reference Id')
-            .escape()
+            return validationChain().optional()
         }
     }
 
     public validateName = (fieldName: string, { required }: ValidationOption) =>{
+        const validationChain = () => body(fieldName)
+            .trim()
+            .isLength({ min: 2, max: 100})
+            .withMessage(
+                `${fieldName} ${this.nameLengthValidationMsg}`
+            )
+            .escape()
+
         if(required){
-            return body(fieldName)
-                .trim()
-                .isLength({ min: 2, max: 100})
-                .withMessage(
-                    `${fieldName} ${this.nameLengthValidationMsg}`
-                ).notEmpty()
-                .withMessage(`${fieldName} is reuired`)
-                .escape()
+            return validationChain().notEmpty().withMessage(
+                `${fieldName} is reuired`)
         } else{
-            return body(fieldName)
-                .trim()
-                .isLength({ min: 2, max: 100})
-                .withMessage(
-                    `${fieldName} ${this.nameLengthValidationMsg}`)
-                .escape()
-                .optional()
+            return validationChain().optional()
         }
     }
 
     public validateNumber = (fieldName: string, { required }: ValidationOption) =>{
+
+        const validationChain = () => body(fieldName)
+            .trim()
+            .isNumeric()
+            .withMessage(
+            `${fieldName} ${this.numberValiditionMessage}`)
+            .escape()
+
         if(required){
-            return body(fieldName)
-                .trim()
-                .isNumeric()
-                .withMessage(
-                    `${fieldName} ${this.numberValiditionMessage}`)
-                .notEmpty()
-                .withMessage(`${fieldName} is required`)
-                .escape()
+            return validationChain().notEmpty().withMessage(
+                `${fieldName} is required`)
 
         } else{
-            return body(fieldName)
-                .trim()
-                .isNumeric()
-                .withMessage(
-                    `${fieldName} ${this.numberValiditionMessage}`)
-                .optional()
-                .escape()
+            return validationChain().optional()
         }
     }
 
     public validateReferenceName = (paramName: string, { required }: ValidationOption) =>{
+        const validationChain = () => param(paramName)
+            .trim()
+            .matches(/^[a-z0-9]{2,100}$/i)
+            .withMessage(`${paramName} must be a 2-50 characters long`)
+            .escape()
+
         if(required){
-            return param(paramName)
-                .trim()
-                .matches(/^[a-z0-9]{2,100}$/i)
-                .withMessage(`${paramName} must be a 2-50 characters long`)
-                .notEmpty()
-                .withMessage(`${paramName} is required`)
-                .escape()
+            return validationChain().notEmpty().withMessage(`${paramName} is required`)
         } else {
-            return param(paramName)
-                .trim()
-                .matches(/^[a-z0-9]{2,100}$/i)
-                .withMessage(`${paramName} must be a 2-50 characters long`)
-                .escape()
-                .optional()
+            return validationChain().optional()
         }
     }
 
     public validateNameField(fieldName: string, { required}: ValidationOption): ValidationChain{
+
         const formattedName = formatter.formatFieldName(fieldName)
+        const validationChain = () => body(fieldName)
+            .trim()
+            .matches(/^.{2,100}$/)
+            .withMessage(`${formattedName} must be a 2-50 characters long`)
+            .escape()
 
         if(required){
-            return body(fieldName)
-                .trim()
-                .matches(/^.{2,100}$/)
-                .withMessage(`${formattedName} must be a 2-50 characters long`)
-                .notEmpty()
-                .withMessage(`${formattedName} is required.`)
-                .escape()
+            return validationChain().notEmpty().withMessage(`${formattedName} is required.`)
         } else {
-            return body(fieldName)
-                .trim()
-                .matches(/^.{2,100}$/)
-                .withMessage(`${formattedName} must be a 2-50 characters long`)
-                .escape()
-                .optional()
+            return validationChain().optional()
         }
 
     }
 
     public validateBooleanField = (field: string, { required }: ValidationOption) =>{
 
+        const validationChain = () => body(field)
+            .trim()
+            .isBoolean()
+            .withMessage(`${field} field must be boolean`)
+
         if(required){
-            return body(field)
-                .trim()
-                .isBoolean()
-                .withMessage(`${field} field must be boolean`)
-                .notEmpty()
-                .withMessage(`${field} is required.`)
-                
+            return validationChain().notEmpty().withMessage(`${field} is required.`)  
         } else{
-            return body(field)
-                .trim()
-                .isBoolean()
-                .withMessage(`${field} field must be boolean`)
-                .optional()
+            return validationChain().optional()
         }
     }
 
     public validateString(fieldName: string, { required }: ValidationOption){
-        const validationChain = body(fieldName).trim()
+        const validationChain = () => body(fieldName).trim()
             .isString().escape()
         
         if(required){
-            return validationChain.notEmpty()
+            return validationChain().notEmpty()
                 .withMessage(`${fieldName} is required`)
         } else{
-            return validationChain.optional()
+            return validationChain().optional()
         }
     }
 
     public validateUrl = (fieldName: string, { required}: ValidationOption) =>{
-        const validationChain = body(fieldName).trim()
+        const validationChain = () => body(fieldName).trim()
         .isString()
     
         if(required){
-            return validationChain.notEmpty()
+            return validationChain().notEmpty()
                 .withMessage(`${fieldName} is required`)
         } else{
-            return validationChain.optional()
+            return validationChain().optional()
         }
     }
 
