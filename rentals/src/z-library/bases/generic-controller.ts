@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express-serve-static-core";
-import { HttpResponse, Paginator } from "../z-library/HTTP/http-response";
-import { Controllable } from "../z-library/bases/controllable";
-import { Accessible } from "../z-library/bases/accessible";
+import { HttpResponse, Paginator } from "../HTTP/http-response";
+import { Controllable } from "./controllable";
+import { Accessible } from "./accessible";
 
 export class GenericController <T extends Accessible> 
     extends HttpResponse implements Controllable {

@@ -1,11 +1,11 @@
 import { RentalDataAccess } from "../data-access/data-access";
-import { GenericController } from "./generic-controller";
+import { GenericController } from "../z-library/bases/generic-controller";
 
 export class RentalsController extends GenericController<RentalDataAccess>{
     constructor (dataAccess: RentalDataAccess){
         super(dataAccess)
     }
-    
+
     public addNewRental = () =>{ return this.addNew }
     public getOneRental = () =>{ return this.getOne }
     public getManyRentals = () =>{ return this.getMany }
