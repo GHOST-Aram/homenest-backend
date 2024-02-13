@@ -1,39 +1,34 @@
-import { validator } from "../utils/validator";
-
-export const rentalPostValidator = [
-    validator.validateName('propertyName'),
-    validator.validateRequiredField('propertyName'),
-
-    validator.validateNumberField('bedrooms'),
-    validator.validateRequiredField('bedrooms'),
-
-    ...validator.validateImageUrl('backgroundImageUrl'),
-
-    validator.validateString('description'),
-    validator.validateRequiredField('description'),
-
-    validator.validateObjectId('agentId'),
-    validator.validateRequiredField('agentId'),
-    
-    ...validator.validateLocation('locationName'),
-    ...validator.validatePrice('rentPerMonth'),
-    ...validator.validatePrice('rentPerYear'),
-    validator.validateNumberField('bathrooms'),
-    validator.validateRequiredField('bathrooms'),
-
-    validator.validateNumberField('squareFootage'),
-    validator.validateRequiredField('squareFootage'),
+import { validator } from "../z-library/validation/validator"
 
 
+const required = { required: true }
+const notRequired = { required: false }
 
-
-
-
+const rentalPostValidator = [
+    validator.validateName('propertyName', required),
+    validator.validateNumber('bedrooms', required),
+    validator.validateUrl('backgroundImageUrl', required),
+    validator.validateString('description', required),
+    validator.validateObjectId('agentId', required),
+    validator.validateName('locationName', required),
+    validator.validateNumber('rentPerMonth', required),
+    validator.validateNumber('rentPerYear', required),
+    validator.validateNumber('bathrooms', required),
+    validator.validateNumber('squareFootage', required),
 ]
 
-export const optionalValidator = [
-    validator.validateName('location').optional(),
-    validator.validateNumber('bedrooms').optional(),
-    validator.validateNumber('price').optional(),
-    validator.validateString('imageUrl').optional()
+const optionalValidator = [
+    validator.validateName('propertyName', notRequired),
+    validator.validateName('locationName', notRequired),
+    validator.validateNumber('bedrooms', notRequired),
+    validator.validateNumber('price', notRequired),
+    validator.validateUrl('backgroundImageUrl', notRequired),
+    validator.validateString('description', notRequired),
+    validator.validateObjectId('agentId', notRequired),
+    validator.validateNumber('rentPerMonth', notRequired),
+    validator.validateNumber('rentPerYear', notRequired),
+    validator.validateNumber('bathrooms', notRequired),
+    validator.validateNumber('squareFootage', notRequired),
 ]
+
+export { rentalPostValidator, optionalValidator }

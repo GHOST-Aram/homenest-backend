@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { RentalsController } from "../controller/controller";
 import { optionalValidator, rentalPostValidator } from "./input-validation";
-import { validator } from "../utils/validator";
+import { validator } from "../z-library/validation/validator";
 
 const router = Router()
 
@@ -15,7 +15,7 @@ export const routesWrapper = (controller: RentalsController) =>{
     )
 
     router.get('/:id', 
-        validator.validateReferenceId('id'),
+        validator.validateReferenceId('id', { required: true }),
         validator.handleValidationErrors,
         controller.getOne
     )
@@ -24,7 +24,7 @@ export const routesWrapper = (controller: RentalsController) =>{
 
     router.put('/', controller.respondWithMethodNotAllowed)
     router.put('/:id', 
-        validator.validateReferenceId('id'),
+        validator.validateReferenceId('id', { required: true }),
         rentalPostValidator,
         validator.handleValidationErrors,
         controller.updateOne
@@ -32,7 +32,7 @@ export const routesWrapper = (controller: RentalsController) =>{
 
     router.patch('/', controller.respondWithMethodNotAllowed)
     router.patch('/:id', 
-        validator.validateReferenceId('id'),
+        validator.validateReferenceId('id', { required: true }),
         optionalValidator,
         validator.handleValidationErrors,
         controller.modifyOne
@@ -40,7 +40,7 @@ export const routesWrapper = (controller: RentalsController) =>{
 
     router.delete('/', controller.respondWithMethodNotAllowed)
     router.delete('/:id', 
-        validator.validateReferenceId('id'),
+        validator.validateReferenceId('id', { required: true }),
         validator.handleValidationErrors,
         controller.deleteOne
     )

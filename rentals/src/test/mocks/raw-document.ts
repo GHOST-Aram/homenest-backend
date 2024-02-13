@@ -25,6 +25,6 @@ export const badRentalData = {
 }
 
 export const patchData = {
-    location: 'Nairobi',
+    locationName: 'Nairobi',
     bedrooms: 4
 }

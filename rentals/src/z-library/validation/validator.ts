@@ -16,22 +16,17 @@ export class Validator {
     private objectIdMessage = 'must be an hexadecimal of length 24'
     
     public validateObjectId = (fieldName: string, { required }: ValidationOption) =>{
+        const validationChain =  body(fieldName)
+            .trim()
+            .matches(/[a-fA-F0-9]{24}/)
+            .withMessage(
+                `${fieldName} ${this.objectIdMessage}`)
+            .escape()
 
         if(required){
-            return body(fieldName)
-                .trim()
-                .notEmpty()
-                .withMessage(`${fieldName} is required`)
-                .matches(/[a-fA-F0-9]{24}/)
-                .withMessage(
-                    `${fieldName} ${this.objectIdMessage}`
-                ).escape()
+            return validationChain.notEmpty().withMessage(`${fieldName} is required`)
         } else {
-            return body(fieldName)
-                .matches(/[a-fA-F0-9]{24}/)
-                .withMessage(
-                    `${fieldName} ${this.objectIdMessage}`
-                ).optional().escape()
+            return validationChain.optional()
         }
     }
 
@@ -68,15 +63,15 @@ export class Validator {
             .trim()
             .matches(/^[a-fA-F0-9]{24}$/)
             .withMessage('Invalid reference Id')
-            .notEmpty()
             .withMessage(`${paramName} is required`)
             .escape()
+            .notEmpty()
         } else{
             return param(paramName)
             .trim()
+            .optional()
             .matches(/^[a-fA-F0-9]{24}$/)
             .withMessage('Invalid reference Id')
-            .optional()
             .escape()
         }
     }
@@ -98,6 +93,7 @@ export class Validator {
                 .withMessage(
                     `${fieldName} ${this.nameLengthValidationMsg}`)
                 .escape()
+                .optional()
         }
     }
 
@@ -183,6 +179,30 @@ export class Validator {
         }
     }
 
+    public validateString(fieldName: string, { required }: ValidationOption){
+        const validationChain = body(fieldName).trim()
+            .isString().escape()
+        
+        if(required){
+            return validationChain.notEmpty()
+                .withMessage(`${fieldName} is required`)
+        } else{
+            return validationChain.optional()
+        }
+    }
+
+    public validateUrl = (fieldName: string, { required}: ValidationOption) =>{
+        const validationChain = body(fieldName).trim()
+        .isString()
+    
+        if(required){
+            return validationChain.notEmpty()
+                .withMessage(`${fieldName} is required`)
+        } else{
+            return validationChain.optional()
+        }
+    }
+
     public handleValidationErrors = (
         req: Request, res: Response, next: NextFunction 
         ) =>{
@@ -198,4 +218,6 @@ export class Validator {
             }
     }
 }
+
+export const validator = new Validator()
 
