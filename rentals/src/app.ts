@@ -3,8 +3,9 @@ import { routesWrapper } from "./routes/urls";
 import { RentalsController } from "./controller/controller";
 import { RentalDataAccess } from "./data-access/data-access";
 import { httpErrors } from "./z-library/HTTP/http-errors";
+import { Rental } from "./data-access/model";
 
-const dataAccess = new RentalDataAccess()
+const dataAccess = new RentalDataAccess(Rental)
 const controller = new RentalsController(dataAccess)
 
 const routes = routesWrapper(controller)
