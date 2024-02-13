@@ -1,8 +1,8 @@
 export const rentalData = {
-    imageUrl: 'redntal',
+    backgroundImageUrl: 'redntal',
     rentPerMonth: 5000,
     rentPerYear: 60000,
-    location: 'Nairobi',
+    locationName: 'Nairobi',
     bedrooms: 4,
     propertyName: 'Monalisa',
     bathrooms: 3,
@@ -12,8 +12,8 @@ export const rentalData = {
 }
 
 export const rentalProperties = [
-    'imageUrl', 'rentPerMonth', 'rentPerYear',
-    'location', 'bedrooms', 'propertyName',
+    'backgroundImageUrl', 'rentPerMonth', 'rentPerYear',
+    'locationName', 'bedrooms', 'propertyName',
     'bathrooms',
     'description', 'agentId', 'squareFootage',
 ]

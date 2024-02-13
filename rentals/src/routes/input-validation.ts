@@ -7,7 +7,7 @@ export const rentalPostValidator = [
     validator.validateNumberField('bedrooms'),
     validator.validateRequiredField('bedrooms'),
 
-    ...validator.validateImageUrl('imageUrl'),
+    ...validator.validateImageUrl('backgroundImageUrl'),
 
     validator.validateString('description'),
     validator.validateRequiredField('description'),
@@ -15,7 +15,7 @@ export const rentalPostValidator = [
     validator.validateObjectId('agentId'),
     validator.validateRequiredField('agentId'),
     
-    ...validator.validateLocation('location'),
+    ...validator.validateLocation('locationName'),
     ...validator.validatePrice('rentPerMonth'),
     ...validator.validatePrice('rentPerYear'),
     validator.validateNumberField('bathrooms'),
